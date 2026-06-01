@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://kit.fontawesome.com/7d58f8bf40.js" crossorigin="anonymous"></script>
+    <title>Sweet Bakery - Feedback</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header__nav header__container">
+            <a href="index.html" class="header__logo">
+                <h1 class="header__logo-text">🍰 Sweet Bakery</h1>
+            </a>
+            <ul class="header__nav-list">
+                <li><button class="header__nav-btn" id="btn-close">
+                        <i class="fa-solid fa-square-xmark"></i>
+                    </button></li>
+                <li class="header__nav-item">
+                    <a href="index.html" class="header__nav-link">Home</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="About.html" class="header__nav-link">About</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Menu.html" class="header__nav-link">Menu</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Feedback.html" class="header__nav-link">Feedback</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Gallery.html" class="header__nav-link">Gallery</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Contact.html" class="header__nav-link">Contact</a>
+                </li>
+            </ul>
+            <button class="header__nav-btn" id="btn-open">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="testimonials">
+            <h2 class="testimonials__title">Customer Feedback</h2>
+            <div class="testimonials__container">
+                <div class="slider-container swiper">
+                    <div class="slider-wrapper">
+                        <ul class="testimonials__list swiper-wrapper">
+                            <li class="testimonial__list-item swiper-slide">
+                                <img src="images/user-1.jpg" alt="Sarah Johnson" class="testimonials__list-img" />
+                                <h3 class="testimonial__list-name">Sarah Johnson</h3>
+                                <i class="testimonial__list-feedback"><q>The croissants are absolutely divine! Crispy on
+                                        the outside, buttery and flaky inside. Best bakery in town!</q></i>
+                            </li>
+
+                            <li class="testimonial__list-item swiper-slide">
+                                <img src="images/user-2.jpg" alt="Jessica Martinez" class="testimonials__list-img" />
+                                <h3 class="testimonial__list-name">Jessica Martinez</h3>
+                                <i class="testimonial__list-feedback"><q>Their donuts are to die for! Fresh, soft, and
+                                        so many delicious flavors. I come here every week!</q></i>
+                            </li>
+
+                            <li class="testimonial__list-item swiper-slide">
+                                <img src="images/user-3.jpg" alt="Amanda Brown" class="testimonials__list-img" />
+                                <h3 class="testimonial__list-name">Amanda Brown</h3>
+                                <i class="testimonial__list-feedback"><q>The custom cake I ordered was a masterpiece!
+                                        Beautiful, delicious, and exactly what I wanted. Highly recommend!</q></i>
+                            </li>
+
+                            <li class="testimonial__list-item swiper-slide">
+                                <img src="images/user-4.jpg" alt="Emily Harris" class="testimonials__list-img" />
+                                <h3 class="testimonial__list-name">Emily Harris</h3>
+                                <i class="testimonial__list-feedback"><q>Excellent quality ingredients and amazing
+                                        flavors! Every pastry is made with love. This is my go-to bakery!</q></i>
+                            </li>
+
+                            <li class="testimonial__list-item swiper-slide">
+                                <img src="images/user-5.jpg" alt="Olivia Thompson" class="testimonials__list-img" />
+                                <h3 class="testimonial__list-name">Olivia Thompson</h3>
+                                <i class="testimonial__list-feedback"><q>The bread selection is fantastic! Artisan,
+                                        fresh, and so tasty. Perfect for morning coffee!</q></i>
+                            </li>
+                        </ul>
+
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+
+</html>

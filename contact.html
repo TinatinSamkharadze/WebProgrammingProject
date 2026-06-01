@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://kit.fontawesome.com/7d58f8bf40.js" crossorigin="anonymous"></script>
+    <title>Sweet Bakery - Contact Us</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header__nav header__container">
+            <a href="index.html" class="header__logo">
+                <h1 class="header__logo-text">🍰 Sweet Bakery</h1>
+            </a>
+            <ul class="header__nav-list">
+                <li><button class="header__nav-btn" id="btn-close">
+                        <i class="fa-solid fa-square-xmark"></i>
+                    </button></li>
+                <li class="header__nav-item">
+                    <a href="index.html" class="header__nav-link">Home</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="About.html" class="header__nav-link">About</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Menu.html" class="header__nav-link">Menu</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Feedback.html" class="header__nav-link">Feedback</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Gallery.html" class="header__nav-link">Gallery</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="Contact.html" class="header__nav-link">Contact</a>
+                </li>
+            </ul>
+            <button class="header__nav-btn" id="btn-open">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="contact">
+        <h2 class="contact__title">Contact Us</h2>
+        <div class="contact__container">
+            <div class="contact__info-list">
+                <div class="contact__info-item">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <p>456 Baker Street, Sweetville, CA 90210</p>
+                </div>
+                <div class="contact__info-item">
+                    <i class="fa-regular fa-envelope"></i>
+                    <p>hello@sweetbakery.com</p>
+                </div>
+                <div class="contact__info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <p>(555) 123-4567</p>
+                </div>
+                <div class="contact__info-item">
+                    <i class="fa-regular fa-clock"></i>
+                    <p>Monday - Saturday: 7:00 AM - 7:00 PM</p>
+                </div>
+                <div class="contact__info-item">
+                    <i class="fa-regular fa-clock"></i>
+                    <p>Sunday: 9:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+
+            <form id="contactForm" class="contact__signing">
+                <fieldset>
+                    <legend>Send us a Message</legend>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name" class="contact__signing-input" name="name"
+                        required />
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email" class="contact__signing-input" name="email"
+                        required />
+
+                    <label for="message">Message</label>
+                    <textarea id="message" class="contact__signing-input" placeholder="Your message" name="message"
+                        required></textarea>
+
+                    <button type="submit" class="contact__signing-btn">Submit</button>
+                </fieldset>
+            </form>
+
+            <div id="successMessage" class="success-message" style="display: none;">
+                <p>✅ Thank you! Your message has been sent successfully.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__content">
+            <p class="footer__content-text">© 2025 Sweet Bakery - All Rights Reserved</p>
+            <div class="footer__social">
+                <a href="https://www.facebook.com/" target="_blank" class="footer__social-link">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" class="footer__social-link">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://x.com/" target="_blank" class="footer__social-link">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+            </div>
+            <p class="about__social-policy">
+                <a href="#" class="about__social-policy_link">Privacy Policy • Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/menu.js"></script>
+    <script src="js/form-handler.js"></script>
+</body>
+
+</html>
