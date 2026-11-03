@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweet Bakery - Status</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f7f1ea; color: #3b2a20; margin: 0; padding: 2rem; }
+        h1 { margin-top: 0; }
+        table { border-collapse: collapse; width: 100%; max-width: 720px; background: #fff; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #3b2a20; color: #fff; }
+        .up { color: #1a7f37; font-weight: 600; }
+        .down { color: #cf222e; font-weight: 600; }
+        .summary { margin: 1rem 0; font-size: 1.1rem; }
+        button { padding: 0.5rem 1rem; border: 0; border-radius: 6px; background: #3b2a20; color: #fff; cursor: pointer; }
+    </style>
+</head>
+
+<body>
+    <h1>Sweet Bakery - Status Dashboard</h1>
+    <p class="summary" id="summary">Checking...</p>
+    <table>
+        <thead>
+            <tr><th>Page</th><th>Status</th><th>HTTP</th><th>Response time</th></tr>
+        </thead>
+        <tbody id="results"></tbody>
+    </table>
+    <p>Last checked: <span id="lastChecked">-</span> (auto-refresh every 30s) <button id="refresh">Check now</button></p>
+
+    <script>
+        const PAGES = ['index.html', 'about.html', 'menu.html', 'gallery.html', 'feedback.html', 'contact.html'];
+
+        async function checkPage(page) {
+            const start = performance.now();
+            try {
+                const res = await fetch(page, { cache: 'no-store' });
+                return { page, ok: res.ok, status: res.status, ms: Math.round(performance.now() - start) };
+            } catch (e) {
+                return { page, ok: false, status: 'ERR', ms: Math.round(performance.now() - start) };
+            }
+        }
+
+        async function runChecks() {
+            const results = await Promise.all(PAGES.map(checkPage));
+            document.getElementById('results').innerHTML = results.map((r) => `
+                <tr>
+                    <td><a href="${r.page}">${r.page}</a></td>
+                    <td class="${r.ok ? 'up' : 'down'}">${r.ok ? 'UP' : 'DOWN'}</td>
+                    <td>${r.status}</td>
+                    <td>${r.ms} ms</td>
+                </tr>`).join('');
+            const upCount = results.filter((r) => r.ok).length;
+            const summary = document.getElementById('summary');
+            summary.textContent = `${upCount}/${results.length} pages operational`;
+            summary.className = 'summary ' + (upCount === results.length ? 'up' : 'down');
+            document.getElementById('lastChecked').textContent = new Date().toLocaleString();
+        }
+
+        document.getElementById('refresh').addEventListener('click', runChecks);
+        runChecks();
+        setInterval(runChecks, 30000);
+    </script>
+</body>
+
+</html>
