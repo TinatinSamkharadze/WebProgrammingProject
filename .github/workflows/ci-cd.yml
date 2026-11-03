@@ -1,0 +1,125 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Check Vercel secrets
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "::error::Missing VERCEL_TOKEN, VERCEL_ORG_ID or VERCEL_PROJECT_ID repository secrets."
+            exit 1
+          fi
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build for Vercel
+        run: vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          echo "Deployed to: $url"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Health check
+        id: health
+        run: |
+          TARGET_URL="${{ vars.PRODUCTION_URL }}"
+          TARGET_URL="${TARGET_URL:-${{ steps.deploy.outputs.url }}}"
+          ./scripts/health-check.sh "$TARGET_URL" logs/health-check.log
+
+      - name: Roll back on failed health check
+        if: failure() && steps.health.outcome == 'failure'
+        run: |
+          echo "::warning::Health check failed - rolling back to the previous production deployment."
+          echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] ROLLBACK triggered for ${{ steps.deploy.outputs.url }}" >> logs/health-check.log
+          vercel rollback --token="$VERCEL_TOKEN" --timeout=60s
+
+      - name: Upload health check log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-check-log
+          path: logs/health-check.log
+          if-no-files-found: ignore

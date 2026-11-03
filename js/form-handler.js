@@ -6,20 +6,18 @@ document.addEventListener('DOMContentLoaded', function () {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
+            const result = window.BakeryValidation.validateContactForm({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            });
 
-            if (!name || !email || !message) {
-                alert('Please fill in all fields');
+            if (!result.valid) {
+                alert(result.error);
                 return;
             }
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
-                return;
-            }
+            const { name, email, message } = result.values;
 
             const formData = {
                 name: name,
