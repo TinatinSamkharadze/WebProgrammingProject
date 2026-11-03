@@ -2,8 +2,8 @@
 
 ![CI/CD Pipeline](https://github.com/TinatinSamkharadze/WebProgrammingProject/actions/workflows/ci-cd.yml/badge.svg)
 
-🔗 **Live ვერსია (Vercel):** https://YOUR-PROJECT.vercel.app
-📊 **სტატუსის დეშბორდი:** https://YOUR-PROJECT.vercel.app/status.html
+🔗 **Live ვერსია (Vercel):** https://sweet-bakery-website-chi.vercel.app
+📊 **სტატუსის დეშბორდი:** https://sweet-bakery-website-chi.vercel.app/status.html
 
 ## 1. პროექტის აღწერა
 
@@ -106,7 +106,7 @@ flowchart LR
 2. შექმენით ტოკენი: Vercel → Account Settings → Tokens.
 3. GitHub-ზე: Settings → Secrets and variables → Actions:
    - **Secrets:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-   - **Variables:** `PRODUCTION_URL` (მაგ. `https://YOUR-PROJECT.vercel.app`) – health check ამ მისამართს ამოწმებს.
+   - **Variables:** `PRODUCTION_URL` (მაგ. `https://sweet-bakery-website-chi.vercel.app`) – health check ამ მისამართს ამოწმებს.
 
 ## 5. მონიტორინგი და Health Check
 
@@ -118,13 +118,13 @@ flowchart LR
 - წარმატებისას აბრუნებს exit code `0`-ს, წარუმატებლობისას – `1`-ს (რაც პაიპლაინში იწვევს rollback-ს).
 
 ```bash
-./scripts/health-check.sh https://YOUR-PROJECT.vercel.app
+./scripts/health-check.sh https://sweet-bakery-website-chi.vercel.app
 ```
 
 ლოგის მაგალითი:
 
 ```
-[2026-11-03 18:14:57 UTC] STATUS=UP   HTTP=200 TIME=0.060383s URL=https://YOUR-PROJECT.vercel.app
+[2026-11-03 18:14:57 UTC] STATUS=UP   HTTP=200 TIME=0.060383s URL=https://sweet-bakery-website-chi.vercel.app
 [2026-11-03 18:14:59 UTC] STATUS=DOWN HTTP=000 TIME=2.213311s URL=https://broken.example (attempt 1/2)
 [2026-11-03 18:15:02 UTC] HEALTH CHECK FAILED after 2 attempts: https://broken.example
 ```
