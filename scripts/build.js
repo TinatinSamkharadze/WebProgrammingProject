@@ -7,6 +7,16 @@ const ASSET_DIRS = ['css', 'js', 'images'];
 
 const htmlFiles = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 
+function existsExactCase(relativePath) {
+    let current = ROOT;
+    for (const part of relativePath.split('/').filter((p) => p && p !== '.')) {
+        if (!fs.existsSync(current) || !fs.statSync(current).isDirectory()) return false;
+        if (!fs.readdirSync(current).includes(part)) return false;
+        current = path.join(current, part);
+    }
+    return true;
+}
+
 function findBrokenReferences(htmlFile) {
     const html = fs.readFileSync(path.join(ROOT, htmlFile), 'utf8');
     const refs = [...html.matchAll(/(?:src|href)\s*=\s*"([^"]+)"/g)].map((m) => m[1]);
@@ -14,7 +24,7 @@ function findBrokenReferences(htmlFile) {
     return refs
         .filter((ref) => !/^(https?:|mailto:|tel:|#|\/\/)/.test(ref) && !ref.includes('${'))
         .map((ref) => ref.split(/[?#]/)[0])
-        .filter((ref) => ref && !fs.existsSync(path.join(ROOT, ref)));
+        .filter((ref) => ref && !existsExactCase(ref));
 }
 
 const broken = htmlFiles.flatMap((file) =>
