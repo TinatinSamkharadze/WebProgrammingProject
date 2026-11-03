@@ -12,7 +12,7 @@ function findBrokenReferences(htmlFile) {
     const refs = [...html.matchAll(/(?:src|href)\s*=\s*"([^"]+)"/g)].map((m) => m[1]);
 
     return refs
-        .filter((ref) => !/^(https?:|mailto:|tel:|#|\/\/)/.test(ref))
+        .filter((ref) => !/^(https?:|mailto:|tel:|#|\/\/)/.test(ref) && !ref.includes('${'))
         .map((ref) => ref.split(/[?#]/)[0])
         .filter((ref) => ref && !fs.existsSync(path.join(ROOT, ref)));
 }
